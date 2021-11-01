@@ -1,55 +1,19 @@
 import React from "react";
-import axios from "axios";
-import Movie from "./Movie";
-import "./App.css";
+import { HashRouter, Route } from "react-router-dom";
+import About from "./routes/About";
+import Home from "./routes/Home";
 
-class App extends React.Component {
-  state = {
-    isLoading: true,
-    movies: [],
-  };
-
-  getMovies = async () => {
-    const {
-      data: {
-        data: { movies },
-      },
-    } = await axios.get(
-      "https://yts.mx/api/v2/list_movies.json?sort_by=rating"
-    ); // axios로부터 movie list를 가져옴
-    this.setState({ movies, isLoading: false }); // movies : movies 이지만 movies로 생략 가능
-  };
-
-  componentDidMount() {
-    // 마운트가 끝나면 getMovies function 실행
-    this.getMovies();
-  }
-  render() {
-    const { isLoading, movies } = this.state;
-    return (
-      <section class="container">
-        {isLoading ? (
-          <div className="loader">
-            <span className="loader__text">Loading...</span>
-          </div>
-        ) : (
-          <div className="movies">
-            {movies.map((movie) => (
-              <Movie
-                key={movie.id}
-                id={movie.id}
-                year={movie.year}
-                title={movie.title}
-                summary={movie.summary}
-                poster={movie.medium_cover_image}
-                genres={movie.genres}
-              />
-            ))}
-          </div>
-        )}
-      </section>
-    );
-  }
+function App() {
+  return (
+    <HashRouter>
+      <Route path="/" exact={true} component={Home} />{" "}
+      {/*exact는 화면에 컴포넌트가 2개 이상 랜더링 되는 것을 방지해줌*/}
+      <Route path="/about" component={About} />
+      {/*  /about과 /about/hello가 동시에 랜더링 됨
+      <Route path="/about/hello">
+        <h1>hello</h1>
+      </Route>*/}
+    </HashRouter>
+  );
 }
-
 export default App;
