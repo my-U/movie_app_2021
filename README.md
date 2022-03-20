@@ -1,3 +1,3 @@
 # Movie App 2021
 
-React JS Fundamentals Course (2021 Update)
+영화 앱 클론 코딩
